@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J. - Pakistan Fashion Search</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        /* Search Bar */
+        .search-container {
+            max-width: 800px;
+            margin: -30px auto 30px;
+            padding: 0 20px;
+        }
+
+        .search-box {
+            background: white;
+            border-radius: 50px;
+            padding: 10px 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box input {
+            flex: 1;
+            border: none;
+            padding: 15px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-box button {
+            background: #e94560;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .search-box button:hover {
+            background: #d63447;
+        }
+
+        /* Brand Section */
+        .brand-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .brand-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .brand-logo {
+            width: 80px;
+            height: 80px;
+            background: #1a1a2e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .brand-info h2 {
+            font-size: 2rem;
+            color: #1a1a2e;
+        }
+
+        .brand-info p {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Filters */
+        .filters {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .filter-group label {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .filter-group select,
+        .filter-group input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        /* Product Card */
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 350px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 3rem;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-brand {
+            color: #e94560;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            color: #1a1a2e;
+            margin: 8px 0;
+            line-height: 1.4;
+        }
+
+        .product-price {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .current-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #1a1a2e;
+        }
+
+        .original-price {
+            font-size: 1rem;
+            color: #999;
+            text-decoration: line-through;
+        }
+
+        .discount-badge {
+            background: #e94560;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .product-details {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .price-history {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .price-history h4 {
+            font-size: 0.9rem;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+        }
+
+        .price-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            text-align: center;
+        }
+
+        .stat {
+            background: white;
+            padding: 8px;
+            border-radius: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #999;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-top: 3px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #1a1a2e;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #16213e;
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #1a1a2e;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-alert {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .btn-alert:hover {
+            background: #ffe69c;
+        }
+
+        /* AI Search Examples */
+        .ai-examples {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 40px 0;
+        }
+
+        .ai-examples h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .example-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .chip {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .chip:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a1a2e;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 60px;
+        }
+
+        .footer p {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .brand-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>🇵🇰 Pakistan Fashion Search</h1>
+        <p>Discover products from J. and 50+ brands in one place</p>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Try: 'Black embroidered lawn suit under Rs. 6,000'">
+            <button onclick="performSearch()">🔍 Search</button>
+        </div>
+    </div>
+
+    <!-- Brand Section -->
+    <div class="brand-section">
+        <div class="brand-header">
+            <div class="brand-logo">J.</div>
+            <div class="brand-info">
+                <h2>Junaid Jamshed (J.)</h2>
+                <p>156 products available • Men, Women & Kids Collection</p>
+            </div>
+        </div>
+
+        <!-- AI Search Examples -->
+        <div class="ai-examples">
+            <h3>💡 Try searching naturally:</h3>
+            <div class="example-chips">
+                <span class="chip" onclick="setSearch('Need a formal kurta under 8000')">Need a formal kurta under 8000</span>
+                <span class="chip" onclick="setSearch('Need a wedding dress')">Need a wedding dress</span>
+                <span class="chip" onclick="setSearch('Need office wear')">Need office wear</span>
+                <span class="chip" onclick="setSearch('Need a blue kurta for Eid')">Need a blue kurta for Eid</span>
+                <span class="chip" onclick="setSearch('Need cotton dress for summer')">Need cotton dress for summer</span>
+                <span class="chip" onclick="setSearch('Need men\'s kurta under 3000')">Need men's kurta under 3000</span>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters">
+            <div class="filter-group">
+                <label>Category</label>
+                <select id="categoryFilter">
+                    <option value="">All Categories</option>
+                    <option value="men">Men</option>
+                    <option value="women">Women</option>
+                    <option value="kids">Kids</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Price Range</label>
+                <select id="priceFilter">
+                    <option value="">Any Price</option>
+                    <option value="0-3000">Under Rs. 3,000</option>
+                    <option value="3000-6000">Rs. 3,000 - 6,000</option>
+                    <option value="6000-10000">Rs. 6,000 - 10,000</option>
+                    <option value="10000+">Above Rs. 10,000</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Color</label>
+                <select id="colorFilter">
+                    <option value="">All Colors</option>
+                    <option value="black">Black</option>
+                    <option value="white">White</option>
+                    <option value="blue">Blue</option>
+                    <option value="red">Red</option>
+                    <option value="green">Green</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Size</label>
+                <select id="sizeFilter">
+                    <option value="">All Sizes</option>
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Fabric</label>
+                <select id="fabricFilter">
+                    <option value="">All Fabrics</option>
+                    <option value="lawn">Lawn</option>
+                    <option value="cotton">Cotton</option>
+                    <option value="linen">Linen</option>
+                    <option value="silk">Silk</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Occasion</label>
+                <select id="occasionFilter">
+                    <option value="">All Occasions</option>
+                    <option value="casual">Casual</option>
+                    <option value="formal">Formal</option>
+                    <option value="wedding">Wedding</option>
+                    <option value="eid">Eid</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="product-grid" id="productGrid">
+            <!-- Products will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Built with ❤️ for Pakistani Fashion Lovers</p>
+        <p style="margin-top: 10px; font-size: 0.9rem;">Prices and availability subject to change. Redirects to official J. website for purchase.</p>
+    </div>
+
+    <script>
+        // Sample product data for J.
+        const products = [
+            {
+                id: 1,
+                title: "Men's Embroidered Kurta - Navy Blue",
+                brand: "J.",
+                category: "men",
+                price: 4990,
+                originalPrice: 5990,
+                discount: 17,
+                color: "blue",
+                size: ["M", "L", "XL"],
+                fabric: "Cotton",
+                occasion: "formal",
+                image: "👔",
+                lowestPrice: 3990,
+                highestPrice: 5990,
+                avgPrice: 4850
+            },
+            {
+                id: 2,
+                title: "Women's Lawn Suit - Black Embroidered",
+                brand: "J.",
+                category: "women",
+                price: 5490,
+                originalPrice: 6990,
+                discount: 21,
+                color: "black",
+                size: ["S", "M", "L"],
+                fabric: "Lawn",
+                occasion: "casual",
+                image: "👗",
+                lowestPrice: 4990,
+                highestPrice: 6990,
+                avgPrice: 5890
+            },
+            {
+                id: 3,
+                title: "Men's White Kurta - Eid Collection",
+                brand: "J.",
+                category: "men",
+                price: 3990,
+                originalPrice: 4990,
+                discount: 20,
+                color: "white",
+                size: ["M", "L", "XL", "XXL"],
+                fabric: "Cotton",
+                occasion: "eid",
+                image: "👔",
+                lowestPrice: 3490,
+                highestPrice: 4990,
+                avgPrice: 4190
+            },
+            {
+                id: 4,
+                title: "Women's Formal Dress - Maroon",
+                brand: "J.",
+                category: "women",
+                price: 8990,
+                originalPrice: 11990,
+                discount: 25,
+                color: "red",
+                size: ["S", "M", "L"],
+                fabric: "Silk",
+                occasion: "wedding",
+                image: "👗",
+                lowestPrice: 7990,
+                highestPrice: 11990,
+                avgPrice: 9490
+            },
+            {
+                id: 5,
+                title: "Kids' Eid Dress - Green Set",
+                brand: "J.",
+                category: "kids",
+                price: 2990,
+                originalPrice: 3990,
+                discount: 25,
+                color: "green",
+                size: ["4Y", "6Y", "8Y", "10Y"],
+                fabric: "Cotton",
+                occasion: "eid",
+                image: "👶",
+                lowestPrice: 2490,
+                highestPrice: 3990,
+                avgPrice: 3190
+            },
+            {
+                id: 6,
+                title: "Men's Casual Shirt - Light Blue",
+                brand: "J.",
+                category: "men",
+                price: 2490,
+                originalPrice: 3490,
+                discount: 29,
+                color: "blue",
+                size: ["M", "L", "XL"],
+                fabric: "Linen",
+                occasion: "casual",
+                image: "👕",
+                lowestPrice: 2290,
+                highestPrice: 3490,
+                avgPrice: 2890
+            }
+        ];
+
+        // Render products
+        function renderProducts(productList) {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+
+            productList.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="product-image">${product.image}</div>
+                    <div class="product-info">
+                        <div class="product-brand">${product.brand}</div>
+                        <h3 class="product-title">${product.title}</h3>
+                        <div class="product-price">
+                            <span class="current-price">Rs. ${product.price.toLocaleString()}</span>
+                            ${product.originalPrice > product.price ? `
+                                <span class="original-price">Rs. ${product.originalPrice.toLocaleString()}</span>
+                                <span class="discount-badge">-${product.discount}%</span>
+                            ` : ''}
+                        </div>
+                        <div class="product-details">
+                            <span class="detail-item">🎨 ${product.color}</span>
+                            <span class="detail-item">🧵 ${product.fabric}</span>
+                            <span class="detail-item">📏 ${product.size.join(', ')}</span>
+                        </div>
+                        <div class="price-history">
+                            <h4>📊 30-Day Price History</h4>
+                            <div class="price-stats">
+                                <div class="stat">
+                                    <div class="stat-label">Lowest</div>
+                                    <div class="stat-value">Rs. ${product.lowestPrice.toLocaleString()}</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-label">Average</div>
+                                    <div class="stat-value">Rs. ${product.avgPrice.toLocaleString()}</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-label">Highest</div>
+                                    <div class="stat-value">Rs. ${product.highestPrice.toLocaleString()}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary" onclick="buyProduct(${product.id})">
+                                🛒 Buy Now
+                            </button>
+                            <button class="btn btn-secondary" onclick="saveProduct(${product.id})">
+                                ❤️ Save
+                            </button>
+                            <button class="btn btn-alert" onclick="setAlert(${product.id})">
+                                🔔 Alert
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Search functionality
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const category = document.getElementById('categoryFilter').value;
+            const priceRange = document.getElementById('priceFilter').value;
+            const color = document.getElementById('colorFilter').value;
+            const size = document.getElementById('sizeFilter').value;
+            const fabric = document.getElementById('fabricFilter').value;
+            const occasion = document.getElementById('occasionFilter').value;
+
+            let filtered = products.filter(product => {
+                // Text search
+                const matchesSearch = !query || 
+                    product.title.toLowerCase().includes(query) ||
+                    product.fabric.toLowerCase().includes(query) ||
+                    product.color.toLowerCase().includes(query);
+
+                // Category filter
+                const matchesCategory = !category || product.category === category;
+
+                // Price filter
+                let matchesPrice = true;
+                if (priceRange) {
+                    if (priceRange === '0-3000') matchesPrice = product.price <= 3000;
+                    else if (priceRange === '3000-6000') matchesPrice = product.price >= 3000 && product.price <= 6000;
+                    else if (priceRange === '6000-10000') matchesPrice = product.price >= 6000 && product.price <= 10000;
+                    else if (priceRange === '10000+') matchesPrice = product.price > 10000;
+                }
+
+                // Color filter
+                const matchesColor = !color || product.color === color;
+
+                // Size filter
+                const matchesSize = !size || product.size.includes(size);
+
+                // Fabric filter
+                const matchesFabric = !fabric || product.fabric.toLowerCase() === fabric;
+
+                // Occasion filter
+                const matchesOccasion = !occasion || product.occasion === occasion;
+
+                return matchesSearch && matchesCategory && matchesPrice && matchesColor && 
+                       matchesSize && matchesFabric && matchesOccasion;
+            });
+
+            renderProducts(filtered);
+        }
+
+        // Set search from chips
+        function setSearch(text) {
+            document.getElementById('searchInput').value = text;
+            performSearch();
+        }
+
+        // Action handlers
+        function buyProduct(id) {
+            alert(`Redirecting to J. official website to purchase product #${id}...`);
+            // In real app: window.open(officialBrandURL, '_blank');
+        }
+
+        function saveProduct(id) {
+            alert(`Product #${id} saved to favorites!`);
+        }
+
+        function setAlert(id) {
+            const targetPrice = prompt('Notify me when price drops below (Rs.):');
+            if (targetPrice) {
+                alert(`✅ Price alert set! You'll be notified when product #${id} drops below Rs. ${targetPrice}`);
+            }
+        }
+
+        // Add event listeners to filters
+        document.querySelectorAll('.filter-group select').forEach(select => {
+            select.addEventListener('change', performSearch);
+        });
+
+        // Initial render
+        renderProducts(products);
+    </script>
+</body>
+</html>
